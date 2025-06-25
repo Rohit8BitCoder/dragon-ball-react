@@ -9,7 +9,6 @@ export default function FetchPlanets() {
         const response = await fetch('https://dragonball-api.com/api/planets');
         const data = await response.json();
         setPlanets(data.items);
-        console.log(data.items);
       } catch (error) {
         console.error('Error fetching planet data:', error);
       }

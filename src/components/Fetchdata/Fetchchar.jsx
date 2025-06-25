@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Fetchchar() {
   const [characters, setCharacters] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const FetchData = async () => {
@@ -9,7 +11,6 @@ export default function Fetchchar() {
         const response = await fetch('https://dragonball-api.com/api/characters?limit=58');
         const data = await response.json();
         setCharacters(data.items);
-        console.log(data.items);
       } catch (error) {
         console.error('Error fetching char data:', error);
       }
@@ -17,6 +18,10 @@ export default function Fetchchar() {
 
     FetchData();
   }, []);
+
+function handleCardClick(id){
+  navigate(`/character/${id}`);
+}
 
   return (
     <div className="bg-gray-100 w-full min-h-screen gap-4 flex-wrap flex justify-center items-center">
@@ -26,6 +31,7 @@ export default function Fetchchar() {
         characters.map((character) => (
           <div
             key={character.id}
+            onClick={() => handleCardClick(character.id)}
             className="w-60 p-1 bg-white rounded-xl  shadow-lg hover:shadow-2xl m-4"
           >
 
