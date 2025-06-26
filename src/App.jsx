@@ -8,6 +8,7 @@ import About from './components/page/about';
 function App() {
   return (
     <Routes>
+       <Route path="*" element={<Navigate to="/dashboard/" replace />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route path="characters" element={<Fetchchar />} />
         <Route path="planets" element={<FetchPlanets />} />
