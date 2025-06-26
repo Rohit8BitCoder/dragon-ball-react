@@ -40,7 +40,6 @@ function handleCardClick(id){
               src={character.image}
               alt={character.name}
             />
-
             <div className="p-2 ">
               <h2 className="font-bold text-xl mb-2 text-center">{character.name}</h2>
 
