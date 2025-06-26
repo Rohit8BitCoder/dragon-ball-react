@@ -20,7 +20,7 @@ export default function Fetchchar() {
   }, []);
 
 function handleCardClick(id){
-  navigate(`/character/${id}`);
+  navigate(`/dashboard/character/${id}`);
 }
 
   return (

@@ -31,6 +31,7 @@ export default function CharDetails() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         
         <div className="flex flex-col bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+            
             <div className="flex">
                 <img src={character.image} alt={character.name} className="w-48 h-48 object-scale-down mx-auto mb-4"/>
             </div>

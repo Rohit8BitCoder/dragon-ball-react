@@ -8,8 +8,20 @@ export default function Header() {
         <img src={logo2} alt='logo' width="150" height="100" />
       </div>
       <div className='flex gap-2 pr-4'>
+
+         <NavLink
+          to="/dashboard/about"
+          className={({ isActive }) =>
+            `bg-white font-semibold py-2 px-4 border border-gray-400 rounded shadow 
+             hover:bg-gray-100 text-gray-800 
+             ${isActive ? "text-orange-700 border-orange-400" : ""}`
+          }
+        >
+          about
+        </NavLink>
+        
         <NavLink
-          to="/"
+          to="/dashboard/characters"
           className={({ isActive }) =>
             `bg-white font-semibold py-2 px-4 border border-gray-400 rounded shadow 
              hover:bg-gray-100 text-gray-800 
@@ -20,7 +32,7 @@ export default function Header() {
         </NavLink>
 
         <NavLink
-          to="/planets"
+          to="/dashboard/planets"
           className={({ isActive }) =>
             `bg-white font-semibold py-2 px-4 border border-gray-400 rounded shadow 
              hover:bg-gray-100 text-gray-800 
@@ -29,6 +41,8 @@ export default function Header() {
         >
           Planets
         </NavLink>
+
+       
       </div>
     </div>
   );
