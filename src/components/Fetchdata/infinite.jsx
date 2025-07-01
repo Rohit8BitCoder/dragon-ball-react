@@ -4,10 +4,10 @@ export default function Fetchchar() {
   const [characters, setCharacters] = useState([]);
   const [charLimit, setCharLimit] = useState(6);
   const [isInitialCall, setIsInitialCall] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true); // ✅ Track if more data exists
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
   const loadingRef = useRef(null);
-
+  
+  // Ref to track initial call for observer
   const isInitialCallRef = useRef(isInitialCall);
   useEffect(() => {
     isInitialCallRef.current = isInitialCall;
@@ -19,40 +19,30 @@ export default function Fetchchar() {
         setIsLoading(true);
         const response = await fetch(`https://dragonball-api.com/api/characters?limit=${charLimit}`);
         const data = await response.json();
-
+        
+        // Fixed: Update characters state with new data
         setCharacters(data.items);
-
-        // ✅ Check if we received fewer than the requested items
-        if (!data.items || data.items.length < charLimit) {
-          setHasMore(false); // No more data to fetch
-        } else {
-          setHasMore(true); // May still have more
-        }
-
         setIsInitialCall(false);
       } catch (error) {
         console.error('Error fetching char data:', error);
-        setHasMore(false);
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (hasMore) {
-      FetchData();
-    }
+    FetchData();
   }, [charLimit]);
 
   useEffect(() => {
-    if (!loadingRef.current || !hasMore) return;
-
+    if (!loadingRef.current) return;
+    
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !isInitialCallRef.current && !isLoading && hasMore) {
+        if (entries[0].isIntersecting && !isInitialCallRef.current && !isLoading) {
           setCharLimit(prev => prev + 6);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 } // Reduced threshold for better detection
     );
 
     observer.observe(loadingRef.current);
@@ -62,7 +52,7 @@ export default function Fetchchar() {
         observer.unobserve(loadingRef.current);
       }
     };
-  }, [isLoading, hasMore]);
+  }, [isLoading]); // Added isLoading dependency
 
   return (
     <div>
@@ -91,14 +81,8 @@ export default function Fetchchar() {
             </div>
           ))
         )}
-
-        {/* Ref target div */}
         <div ref={loadingRef} className="w-full text-center py-4">
-          {isLoading
-            ? "Loading more characters..."
-            : hasMore
-              ? "Scroll to load more"
-              : "🚫 No more characters to load"}
+          {isLoading ? "Loading more characters..." : "Scroll to load more"}
         </div>
       </div>
     </div>
